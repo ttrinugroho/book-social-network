@@ -38,16 +38,19 @@ import lombok.Setter;
 @Entity
 @Table(name = "_user")
 @EntityListeners(AuditingEntityListener.class)
-public class User implements UserDetails, Principal{
+public class User implements UserDetails, Principal {
 
     @Id
     @GeneratedValue
     private Integer id;
+
     private String firstname;
     private String lastname;
     private LocalDate dateOfBirth;
+
     @Column(unique = true)
     private String email;
+
     private String password;
     private boolean accountLocked;
     private boolean enabled;
@@ -55,6 +58,7 @@ public class User implements UserDetails, Principal{
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
+
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
@@ -65,31 +69,32 @@ public class User implements UserDetails, Principal{
     @Override
     public String getName() {
         return email;
-    }   
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles
-            .stream()
-            .map(r-> new SimpleGrantedAuthority(r.getName()))
-            .collect(Collectors.toList());
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public String getUsername() {
         return email;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return !accountLocked;
     }
-    
+
     @Override
-    public boolean isEnabled(){
+    public boolean isEnabled() {
         return enabled;
     }
 
-    public String fullName(){
+    public String fullName() {
         return firstname + " " + lastname;
     }
 }

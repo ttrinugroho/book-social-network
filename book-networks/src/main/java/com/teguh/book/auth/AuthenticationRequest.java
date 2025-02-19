@@ -11,15 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class RegistrationRequest {
-    @NotEmpty()
-    @NotBlank()
-    private String firstname;
-
-    @NotEmpty()
-    @NotBlank()
-    private String lastname;
-
+public class AuthenticationRequest {
     @NotEmpty()
     @NotBlank()
     @Email()
