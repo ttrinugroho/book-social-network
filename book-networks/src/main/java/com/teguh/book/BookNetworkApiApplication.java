@@ -10,8 +10,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import com.teguh.book.role.Role;
 import com.teguh.book.role.RoleRepository;
 
+/* 
+ * auditorAwareRef = "auditorAware" is from config/BeanConfig.auditorAware()
+ */
 @EnableAsync
-@EnableJpaAuditing
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @SpringBootApplication
 public class BookNetworkApiApplication {
 
@@ -20,9 +23,9 @@ public class BookNetworkApiApplication {
 	}
 
 	@Bean
-	public CommandLineRunner runner(RoleRepository roleRepository){
+	public CommandLineRunner runner(RoleRepository roleRepository) {
 		return args -> {
-			if(roleRepository.findByName("USER").isEmpty()){
+			if (roleRepository.findByName("USER").isEmpty()) {
 				roleRepository.save(Role.builder().name("USER").build());
 			}
 		};
