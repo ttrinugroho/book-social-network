@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.teguh.book.exception.OperationNotPermittedException;
 
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityExistsException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -103,6 +104,17 @@ public class GlobalExceptionHandler {
                                 .builder()
                                 .businessErrorCode(ACCOUNT_LOCKED.getCode())
                                 .businessErrorDescription("Internal error, please contact the admin")
+                                .error(exception.getMessage())
+                                .build());
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<ExceptionResponse> handleException(EntityExistsException exception) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(
+                        ExceptionResponse
+                                .builder()
                                 .error(exception.getMessage())
                                 .build());
     }

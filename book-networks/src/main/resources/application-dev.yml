@@ -30,7 +30,6 @@ spring:
                 writetimeout: 5000
     main:
         web-application-type: servlet
-    
 
 application:
     security:

@@ -22,6 +22,7 @@ import com.teguh.book.user.User;
 import com.teguh.book.user.UserRepository;
 
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -39,6 +40,10 @@ public class AuthenticationService {
     private String activationUrl;
 
     public void register(RegistrationRequest request) throws MessagingException {
+        if (isExistEmail(request.getEmail())) {
+            throw new EntityExistsException("Email already Exist");
+        }
+
         var userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized"));
 
@@ -118,6 +123,10 @@ public class AuthenticationService {
         userRepository.save(user);
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);
+    }
+
+    private boolean isExistEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
     }
 
 }

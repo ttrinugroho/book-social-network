@@ -7,7 +7,6 @@ import com.teguh.book.history.BookTransactionHistory;
 
 @Service
 public class BookMapper {
-
     public Book toBook(BookRequest request) {
         return Book
                 .builder()

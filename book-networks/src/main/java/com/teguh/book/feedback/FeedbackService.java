@@ -55,14 +55,18 @@ public class FeedbackService {
                 .map(f -> feedbackMapper.toFeedbackResponse(f, user.getId()))
                 .toList();
 
-        return new PageResponse<>(
-                feedbackResponse,
-                feedbacks.getNumber(),
-                feedbacks.getSize(),
-                feedbacks.getTotalElements(),
-                feedbacks.getTotalPages(),
-                feedbacks.isFirst(),
-                feedbacks.isLast());
+        return pageResponse(feedbackResponse, feedbacks);
+    }
+
+    private <T, P> PageResponse<T> pageResponse(List<T> content, Page<P> page) {
+        return new PageResponse<T>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast());
     }
 
 }
